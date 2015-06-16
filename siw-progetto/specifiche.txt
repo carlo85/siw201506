@@ -1,0 +1,146 @@
+Caso d'uso UC1: consulta listino
+
+Attore primario: Utente non registrato
+
+Scenario principale di successo: 
+1. L'Utente consulta il catalogo dei prodotti
+2. L'Utente sceglie un prodotto e ne richiede i dettagli 
+3. Il Sistema mostra i dettagli del prodotto scelto
+L'Utente ripete dal passo 1 un numero indefinito di volte
+
+____________________
+
+
+Caso d'uso UC2: effettua ordine
+
+Attore primario: Cliente (utente registrato)
+
+Scenario principale di successo:
+1. Il Cliente consulta il catalogo dei prodotti
+2. Il Cliente sceglie un prodotto e ne richiede i dettagli 
+3. Il Cliente sceglie la quantità desiderata e inserisce il prodotto nel carrello
+4. Il Sistema imposta il prezzo unitario del prodotto scelto al prezzo corrente di listino
+5. Il Sistema registra la riga ordine
+Il Cliente ripete dal passo 1 un numero indefinito di volte
+6. Il Cliente consulta il proprio carrello
+7. Il Cliente "chiude" l'ordine
+8. Il Sistema aggiorna l'ordine inserendo la data di chiusura, lo registra, e svuota il carrello del Cliente
+
+Precondizioni: il Cliente è identificato e autenticato
+
+Estensioni:
+3a. Quantità inserita non valida
+	1. Il Sistema segnala l'errore e rifiuta l'inserimento. Il Cliente ripete dal passo 3.
+3b. Prodotto già presente nel carrello
+	1. Il Sistema segnala l'errore e rifiuta l'inserimento. Il Cliente ripete dal passo 1.
+
+____________________
+
+
+Caso d'uso UC3: consulta i propri ordini
+
+Attore primario: Cliente
+
+Scenario principale:
+1. Il Cliente consulta l'elenco dei propri ordini
+2. Il Sistema mostra al Cliente l'elenco dei suoi ordini
+3. Il Cliente chiede il dettaglio di un ordine
+4. Il Sistema mostra il dettaglio dell'ordine
+Il Cliente ripete dal passo 1 un numero indefinito di volte
+
+Precondizioni: il Cliente è identificato e autenticato
+
+____________________
+
+
+Caso d'uso UC4: inserimento prodotti nel catalogo
+
+Attore primario: Amministratore
+
+Scenario principale:
+1. L'Amministratore inserisce un nuovo prodotto nel catalogo specificandone i dettagli
+2. Il Sistema mostra un riepilogo dei dati inseriti e chiede conferma
+3. L'Amministratore conferma i dati inseriti
+4. Il Sistema registra il prodotto
+L'Amministratore ripete dal passo 1 un numero indefinito di volte
+
+Precondizioni: l'Amministratore è identificato e autenticato
+
+Estensioni:
+1a. Dati mancanti o con formato non valido
+	1. Il Sistema segnala l'errore e rifiuta l'inserimento. L'Amministratore ripete dal passo 1.
+1b. Codice prodotto già assegnato
+	1. Il Sistema segnala l'errore e rifiuta l'inserimento. L'Amministratore ripete dal passo 1.
+
+____________________
+
+
+Caso d'uso UC5: recupera indirizzo Cliente
+
+Attore primario: Amministratore
+
+Scenario principale:
+1. L’Amministratore fornisce l'id di un ordine
+2. Il Sistema mostra all’Amministratore i dati dell’ordine e il Cliente che ha effettuato l'ordine
+3. L'Amministratore chiede il dettaglio del Cliente che ha effettuato l'ordine
+4. Il Sistema mostra il dettaglio del Cliente che ha effettuato l'ordine
+
+Precondizioni: l’Amministratore è identificato e autenticato
+
+Estensioni:
+1a. Id non inserito o con formato non valido
+	1. Il Sistema segnala l'errore. L'Amministratore ripete dal passo 1.
+1b. Ordine non trovato
+	1. Il Sistema segnala l'errore. L'Amministratore ripete dal passo 1.
+
+____________________
+
+
+Caso d'uso UC6: evasione ordine
+
+Attore primario: Amministratore
+
+Scenario principale:
+1. L'Amministratore consulta l'elenco degli ordini
+2. Il Sistema presenta all'Amministratore gli ordini
+3. L'Amministratore chiede di evadere un ordine "chiuso"
+4. Il Sistema evade l'ordine: aggiorna l'ordine inserendo la data di spedizione e aggiorna la quantità dei prodotti in magazzino (sottraendo la quantità di prodotti usati per l'ordine)
+
+Precondizioni: l'Amministratore è identificato e autenticato
+
+Estensioni:
+3a. Uno o più prodotti presenti in magazzino non sono in numero sufficiente per soddisfare l'ordine
+	1. Il Sistema segnala l'errore e non aggiorna nulla.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

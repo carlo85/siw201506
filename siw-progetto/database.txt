@@ -1,0 +1,370 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.2
+-- Dumped by pg_dump version 9.4.2
+-- Started on 2015-06-16 16:11:32
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 179 (class 3079 OID 11855)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2051 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 177 (class 1259 OID 17456)
+-- Name: fornitore; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE fornitore (
+    id bigint NOT NULL,
+    indirizzo character varying(255) NOT NULL,
+    partitaiva character varying(255) NOT NULL,
+    postaelettronica character varying(255) NOT NULL,
+    telefono character varying(255) NOT NULL
+);
+
+
+ALTER TABLE fornitore OWNER TO postgres;
+
+--
+-- TOC entry 178 (class 1259 OID 17466)
+-- Name: fornitore_prodotto; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE fornitore_prodotto (
+    fornitori_id bigint,
+    prodotti_id bigint
+);
+
+
+ALTER TABLE fornitore_prodotto OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 17405)
+-- Name: openjpa_sequence_table; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE openjpa_sequence_table (
+    id smallint NOT NULL,
+    sequence_value bigint
+);
+
+
+ALTER TABLE openjpa_sequence_table OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 17410)
+-- Name: ordine; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE ordine (
+    id bigint NOT NULL,
+    datachiusura date,
+    datacreazione date,
+    dataevasione date,
+    stato character varying(255) NOT NULL,
+    utente_nomeutente character varying(255)
+);
+
+
+ALTER TABLE ordine OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 17418)
+-- Name: prodotto; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE prodotto (
+    id bigint NOT NULL,
+    codice character varying(255) NOT NULL,
+    descrizione character varying(2000),
+    nome character varying(255) NOT NULL,
+    prezzo real NOT NULL,
+    quantita integer NOT NULL
+);
+
+
+ALTER TABLE prodotto OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 17428)
+-- Name: rigaordine; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE rigaordine (
+    id bigint NOT NULL,
+    idprodotto bigint NOT NULL,
+    nomeprodotto character varying(255) NOT NULL,
+    prezzoprodotto real NOT NULL,
+    quantitaprodotto integer NOT NULL,
+    ordine_id bigint,
+    prodotto_id bigint
+);
+
+
+ALTER TABLE rigaordine OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 17433)
+-- Name: utente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE utente (
+    nomeutente character varying(255) NOT NULL,
+    categoria character varying(255) NOT NULL,
+    cognome character varying(255),
+    datanascita date,
+    dataregistrazione date,
+    indirizzo character varying(255),
+    nome character varying(255),
+    parolachiave character varying(255) NOT NULL,
+    postaelettronica character varying(255)
+);
+
+
+ALTER TABLE utente OWNER TO postgres;
+
+--
+-- TOC entry 2042 (class 0 OID 17456)
+-- Dependencies: 177
+-- Data for Name: fornitore; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY fornitore (id, indirizzo, partitaiva, postaelettronica, telefono) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2043 (class 0 OID 17466)
+-- Dependencies: 178
+-- Data for Name: fornitore_prodotto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY fornitore_prodotto (fornitori_id, prodotti_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2037 (class 0 OID 17405)
+-- Dependencies: 172
+-- Data for Name: openjpa_sequence_table; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY openjpa_sequence_table (id, sequence_value) FROM stdin;
+0	1201
+\.
+
+
+--
+-- TOC entry 2038 (class 0 OID 17410)
+-- Dependencies: 173
+-- Data for Name: ordine; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY ordine (id, datachiusura, datacreazione, dataevasione, stato, utente_nomeutente) FROM stdin;
+151	2015-06-14	2015-06-14	\N	chiuso	utente2
+51	2015-06-14	2015-06-14	2015-06-15	evaso	utente1
+\.
+
+
+--
+-- TOC entry 2039 (class 0 OID 17418)
+-- Dependencies: 174
+-- Data for Name: prodotto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY prodotto (id, codice, descrizione, nome, prezzo, quantita) FROM stdin;
+2	b		pantaloni	80	0
+1	a		maglietta	30	1
+\.
+
+
+--
+-- TOC entry 2040 (class 0 OID 17428)
+-- Dependencies: 175
+-- Data for Name: rigaordine; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY rigaordine (id, idprodotto, nomeprodotto, prezzoprodotto, quantitaprodotto, ordine_id, prodotto_id) FROM stdin;
+201	1	maglietta	30	1	151	1
+101	1	maglietta	30	1	51	1
+102	2	pantaloni	80	1	51	2
+202	2	pantaloni	80	1	151	2
+\.
+
+
+--
+-- TOC entry 2041 (class 0 OID 17433)
+-- Dependencies: 176
+-- Data for Name: utente; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY utente (nomeutente, categoria, cognome, datanascita, dataregistrazione, indirizzo, nome, parolachiave, postaelettronica) FROM stdin;
+utente2	utente	verdi	0001-01-01	2015-06-14	asd	luigi	asdasd	asd@asd.asd
+utente3	ospite	bianchi	0001-01-01	2015-06-15	asd	paolo	asdasd	asd@asd.asd
+admin	amministratore	\N	\N	\N	\N	\N	admin	\N
+utente1	utente	rossi	0001-01-01	2015-06-14	asd	mario	asdasd	asd@asd.asd
+\.
+
+
+--
+-- TOC entry 1920 (class 2606 OID 17463)
+-- Name: fornitore_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY fornitore
+    ADD CONSTRAINT fornitore_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1908 (class 2606 OID 17409)
+-- Name: openjpa_sequence_table_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY openjpa_sequence_table
+    ADD CONSTRAINT openjpa_sequence_table_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1910 (class 2606 OID 17417)
+-- Name: ordine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY ordine
+    ADD CONSTRAINT ordine_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1912 (class 2606 OID 17425)
+-- Name: prodotto_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY prodotto
+    ADD CONSTRAINT prodotto_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1916 (class 2606 OID 17432)
+-- Name: rigaordine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY rigaordine
+    ADD CONSTRAINT rigaordine_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1922 (class 2606 OID 17465)
+-- Name: u_forntor_partitaiva; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY fornitore
+    ADD CONSTRAINT u_forntor_partitaiva UNIQUE (partitaiva);
+
+
+--
+-- TOC entry 1914 (class 2606 OID 17427)
+-- Name: u_prdotto_codice; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY prodotto
+    ADD CONSTRAINT u_prdotto_codice UNIQUE (codice);
+
+
+--
+-- TOC entry 1918 (class 2606 OID 17440)
+-- Name: utente_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY utente
+    ADD CONSTRAINT utente_pkey PRIMARY KEY (nomeutente);
+
+
+--
+-- TOC entry 1926 (class 2606 OID 17469)
+-- Name: fornitore_prodotto_fornitori_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fornitore_prodotto
+    ADD CONSTRAINT fornitore_prodotto_fornitori_id_fkey FOREIGN KEY (fornitori_id) REFERENCES fornitore(id) DEFERRABLE;
+
+
+--
+-- TOC entry 1927 (class 2606 OID 17474)
+-- Name: fornitore_prodotto_prodotti_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fornitore_prodotto
+    ADD CONSTRAINT fornitore_prodotto_prodotti_id_fkey FOREIGN KEY (prodotti_id) REFERENCES prodotto(id) DEFERRABLE;
+
+
+--
+-- TOC entry 1923 (class 2606 OID 17441)
+-- Name: ordine_utente_nomeutente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ordine
+    ADD CONSTRAINT ordine_utente_nomeutente_fkey FOREIGN KEY (utente_nomeutente) REFERENCES utente(nomeutente) DEFERRABLE;
+
+
+--
+-- TOC entry 1924 (class 2606 OID 17446)
+-- Name: rigaordine_ordine_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY rigaordine
+    ADD CONSTRAINT rigaordine_ordine_id_fkey FOREIGN KEY (ordine_id) REFERENCES ordine(id) DEFERRABLE;
+
+
+--
+-- TOC entry 1925 (class 2606 OID 17451)
+-- Name: rigaordine_prodotto_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY rigaordine
+    ADD CONSTRAINT rigaordine_prodotto_id_fkey FOREIGN KEY (prodotto_id) REFERENCES prodotto(id) DEFERRABLE;
+
+
+--
+-- TOC entry 2050 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2015-06-16 16:11:33
+
+--
+-- PostgreSQL database dump complete
+--
+
